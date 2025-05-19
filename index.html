@@ -16,31 +16,29 @@
   <h1>Bienvenido a Sublime Fashion Colombia</h1>
   <p>Haz clic en el ícono de chat para hablar con nuestro asistente.</p>
 
-  <!-- Botpress Webchat -->
+  <!-- Cargar Webchat de Botpress -->
   <script src="https://cdn.botpress.cloud/webchat/v2.5/inject.js"></script>
   <script>
     window.botpressWebChat.init({
       composerPlaceholder: "Escribe tu mensaje...",
-      botConversationDescription: "Agente de atención al cliente de Sublime Fashion",
-      botId: "TU_BOT_ID",  // Si tienes un botId único, colócalo aquí
+      botConversationDescription: "Asistente de atención para ecommerce",
+      botId: "sublime-especialista-marketing", // Solo si tienes uno personalizado, si no puedes quitarlo
       hostUrl: "https://cdn.botpress.cloud/webchat/v2.5",
       messagingUrl: "https://messaging.botpress.cloud",
-      clientId: "415c8105-9372-4e4e-98d2-8523b5434c4c", // Tu Client ID real
+      clientId: "415c8105-9372-4e4e-98d2-8523b5434c4c",
       webhookId: "default",
       themeName: "prism",
       stylesheet: "https://cdn.botpress.cloud/webchat/v2.5/themes/prism.css",
       showPoweredBy: false,
       enableTranscriptDownload: false,
-      enableReset: true,
-      theme: "prism"
+      enableReset: true
     });
   </script>
 
-  <!-- Voz (opcional: lectura de respuestas en voz alta y entrada de voz) -->
+  <!-- Voz (Texto a voz de respuestas del bot) -->
   <script>
     const synth = window.speechSynthesis;
 
-    // Función para hablar texto recibido
     function speakText(text) {
       if ('speechSynthesis' in window) {
         const utter = new SpeechSynthesisUtterance(text);
@@ -49,32 +47,15 @@
       }
     }
 
-    // Esperar que el webchat esté listo
     window.addEventListener("message", function(event) {
       if (event.data && event.data.type === "botpress-webchat:message-received") {
         const botMessage = event.data.payload.text;
         speakText(botMessage);
       }
     });
-
-    // Entrada por voz
-    const recognition = 'webkitSpeechRecognition' in window ? new webkitSpeechRecognition() : null;
-    if (recognition) {
-      recognition.lang = 'es-CO';
-      recognition.continuous = false;
-
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'F2') { // Presiona F2 para hablar
-          recognition.start();
-        }
-      });
-
-      recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        window.botpressWebChat.sendEvent({ type: "proactive-trigger", payload: { text: transcript } });
-      };
-    }
   </script>
 </body>
 </html>
+
+
 
