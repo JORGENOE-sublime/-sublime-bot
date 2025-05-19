@@ -2,29 +2,49 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sublime Fashion Colombia</title>
+
+  <!-- In your <head> tag -->
+  <script src="https://cdn.botpress.cloud/webchat/v2.5/inject.js"></script>
   <style>
+    #webchat .bpWebchat {
+      position: unset;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      max-width: 100%;
+    }
+
+    #webchat .bpFab {
+      display: none;
+    }
+
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 50px;
+      margin: 50px;
     }
   </style>
 </head>
 <body>
   <h1>Bienvenido a Sublime Fashion Colombia</h1>
-  <p>Haz clic en el ícono de chat para hablar con nuestro asistente.</p>
+  <p>Chatea directamente con nuestro agente virtual.</p>
 
-  <!-- Webchat -->
-  <script src="https://cdn.botpress.cloud/webchat/v2.5/inject.js"></script>
+  <!-- Contenedor para insertar el Webchat -->
+  <div id="webchat" style="width: 100%; height: 500px;"></div>
+
+  <!-- Configuración usando configUrl -->
   <script>
     window.botpressWebChat.init({
-      configUrl: "https://files.bpcontent.cloud/2025/05/19/00/20250519003140-5B5PIAM6.json"
+      configUrl: "https://files.bpcontent.cloud/2025/05/19/00/20250519003140-5B5PIAM6.json",
+      selector: "#webchat"
     });
+
+    // Abre automáticamente el chat embebido al cargar
+    window.botpressWebChat.onEvent(function () {
+      window.botpressWebChat.sendEvent({ type: "show" });
+    }, ["LIFECYCLE.LOADED"]);
   </script>
 </body>
 </html>
-
-
 
