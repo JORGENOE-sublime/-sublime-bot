@@ -1,28 +1,80 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sublime Fashion - Asistente Virtual</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sublime Fashion Colombia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
 </head>
 <body>
-  <h1 style="text-align: center; font-family: Arial;">Bienvenido a Sublime Fashion Colombia</h1>
-  <p style="text-align: center;">Haz clic en el ícono de chat para hablar con nuestro asistente.</p>
+  <h1>Bienvenido a Sublime Fashion Colombia</h1>
+  <p>Haz clic en el ícono de chat para hablar con nuestro asistente.</p>
 
-  <!-- Botpress Webchat Script -->
+  <!-- Botpress Webchat -->
   <script src="https://cdn.botpress.cloud/webchat/v2.5/inject.js"></script>
   <script>
     window.botpressWebChat.init({
-      "composerPlaceholder": "Escribe tu mensaje...",
-      "botId": "6f17d71a-d2e8-41a5-bb12-74327b3c5372",
-      "clientId": "415c8105-9372-4e4e-98d2-8523b5434c4c",
-      "hostUrl": "https://cdn.botpress.cloud/webchat/v2.5",
-      "messagingUrl": "https://messaging.botpress.cloud",
-      "enableSpeechSynthesis": true,
-      "showPoweredBy": false,
-      "stylesheet": "https://cdn.botpress.cloud/webchat/v2.5/themes/dark.css"
+      composerPlaceholder: "Escribe tu mensaje...",
+      botConversationDescription: "Agente de atención al cliente de Sublime Fashion",
+      botId: "TU_BOT_ID",  // Si tienes un botId único, colócalo aquí
+      hostUrl: "https://cdn.botpress.cloud/webchat/v2.5",
+      messagingUrl: "https://messaging.botpress.cloud",
+      clientId: "415c8105-9372-4e4e-98d2-8523b5434c4c", // Tu Client ID real
+      webhookId: "default",
+      themeName: "prism",
+      stylesheet: "https://cdn.botpress.cloud/webchat/v2.5/themes/prism.css",
+      showPoweredBy: false,
+      enableTranscriptDownload: false,
+      enableReset: true,
+      theme: "prism"
     });
+  </script>
+
+  <!-- Voz (opcional: lectura de respuestas en voz alta y entrada de voz) -->
+  <script>
+    const synth = window.speechSynthesis;
+
+    // Función para hablar texto recibido
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'es-CO';
+        synth.speak(utter);
+      }
+    }
+
+    // Esperar que el webchat esté listo
+    window.addEventListener("message", function(event) {
+      if (event.data && event.data.type === "botpress-webchat:message-received") {
+        const botMessage = event.data.payload.text;
+        speakText(botMessage);
+      }
+    });
+
+    // Entrada por voz
+    const recognition = 'webkitSpeechRecognition' in window ? new webkitSpeechRecognition() : null;
+    if (recognition) {
+      recognition.lang = 'es-CO';
+      recognition.continuous = false;
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'F2') { // Presiona F2 para hablar
+          recognition.start();
+        }
+      });
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        window.botpressWebChat.sendEvent({ type: "proactive-trigger", payload: { text: transcript } });
+      };
+    }
   </script>
 </body>
 </html>
+
