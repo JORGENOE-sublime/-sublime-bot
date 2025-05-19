@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sublime Fashion Colombia</title>
   <style>
     body {
@@ -16,42 +16,11 @@
   <h1>Bienvenido a Sublime Fashion Colombia</h1>
   <p>Haz clic en el ícono de chat para hablar con nuestro asistente.</p>
 
-  <!-- Cargar Webchat de Botpress -->
+  <!-- Webchat -->
   <script src="https://cdn.botpress.cloud/webchat/v2.5/inject.js"></script>
   <script>
     window.botpressWebChat.init({
-      composerPlaceholder: "Escribe tu mensaje...",
-      botConversationDescription: "Asistente de atención para ecommerce",
-      botId: "sublime-especialista-marketing", // Solo si tienes uno personalizado, si no puedes quitarlo
-      hostUrl: "https://cdn.botpress.cloud/webchat/v2.5",
-      messagingUrl: "https://messaging.botpress.cloud",
-      clientId: "415c8105-9372-4e4e-98d2-8523b5434c4c",
-      webhookId: "default",
-      themeName: "prism",
-      stylesheet: "https://cdn.botpress.cloud/webchat/v2.5/themes/prism.css",
-      showPoweredBy: false,
-      enableTranscriptDownload: false,
-      enableReset: true
-    });
-  </script>
-
-  <!-- Voz (Texto a voz de respuestas del bot) -->
-  <script>
-    const synth = window.speechSynthesis;
-
-    function speakText(text) {
-      if ('speechSynthesis' in window) {
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.lang = 'es-CO';
-        synth.speak(utter);
-      }
-    }
-
-    window.addEventListener("message", function(event) {
-      if (event.data && event.data.type === "botpress-webchat:message-received") {
-        const botMessage = event.data.payload.text;
-        speakText(botMessage);
-      }
+      configUrl: "https://files.bpcontent.cloud/2025/05/19/00/20250519003140-5B5PIAM6.json"
     });
   </script>
 </body>
